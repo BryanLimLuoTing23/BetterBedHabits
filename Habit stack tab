@@ -1,0 +1,50 @@
+import SwiftUI
+
+struct ContentView: View {
+    
+    @State var itemList = [
+        "Habit 1",
+        "Habit 2",
+        "Habit 3"
+    ]
+    @State var showingAlert = false
+    @State private var newListItem = ""
+    
+    var body: some View {
+        
+        NavigationView {
+            
+            List {
+                ForEach(itemList, id: \.self) {line in Text(line)
+                    
+                }.onDelete { indexSet in 
+                    itemList.remove(atOffsets: indexSet)
+                }
+                        .onMove { itemList.move(fromOffsets: $0, toOffset: $1)}
+                }
+                .toolbar {
+                    
+                    EditButton()
+                    Button("+") {
+                        showingAlert.toggle()
+                        print("Pressed")
+                        
+                    }
+                    .alert("Enter a list item", isPresented: $showingAlert) {
+                        TextField("Enter list item", text: $newListItem)
+                        Button("OK", action: submit)
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+    func submit() {
+        print("You entered \(newListItem)")
+        itemList.append(newListItem)
+    }
+}
+
+
+//WHERE IS THE ADD BUTTON

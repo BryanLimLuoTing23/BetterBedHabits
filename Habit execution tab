@@ -1,0 +1,51 @@
+import SwiftUI
+
+struct ContentView: View {
+    @State var currentDate = Date.now
+    
+    @State var TimerValue = 0.0
+    @State var pause = false
+    let timer = Timer.publish(every: 0.01, on : .main, in: .common).autoconnect()
+    
+    // Let animate 
+    
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundColor(.accentColor)
+            Text(" \(currentDate)")
+                .padding()
+                .border(.cyan, width:2)
+                .onReceive(timer) {input in
+                    currentDate = input}
+                    
+                    Text("\(TimerValue, specifier: "%.1f")")
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.blue, lineWidth: 3)
+                )
+                        .onReceive(timer) {_ in 
+                            if (pause == false) {
+                                TimerValue += 0.01
+                                
+                            }
+                                
+                        }
+                     
+                    Button(" Pause") {
+                        pause.toggle()
+                            
+                    }
+                         
+                    Button("Reset") { 
+                        TimerValue = 0.0}
+                            
+                    
+                        }
+                }
+        
+    
+}
+

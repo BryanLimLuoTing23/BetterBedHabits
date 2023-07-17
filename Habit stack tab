@@ -1,8 +1,9 @@
 import SwiftUI
 
-struct ContentView: View {
-    
-    @State var itemList = [
+struct ContentView: View {// New struct that conforms to "View" protocol
+    // May need to use @AppStorage to declare global var
+ 
+    var itemList = [
         "Habit 1",
         "Habit 2",
         "Habit 3"
@@ -15,13 +16,15 @@ struct ContentView: View {
         NavigationView {
             
             List {
-                ForEach(itemList, id: \.self) {line in Text(line)
+                ForEach(itemList, id: \.self) {item in Text(item)
+                } .onDelete { indexSet in 
                     
-                }.onDelete { indexSet in 
                     itemList.remove(atOffsets: indexSet)
-                }
-                        .onMove { itemList.move(fromOffsets: $0, toOffset: $1)}
-                }
+                } 
+                /*   .onMove { itemList.move(fromOffsets: $0, toOffset: $1)}
+                 }*/
+                
+                //.onmove, .toolbar
                 .toolbar {
                     
                     EditButton()
@@ -30,21 +33,23 @@ struct ContentView: View {
                         print("Pressed")
                         
                     }
+                    /*
                     .alert("Enter a list item", isPresented: $showingAlert) {
                         TextField("Enter list item", text: $newListItem)
                         Button("OK", action: submit)
                         
-                    }
+                    }*/
                     
                 }
                 
             }
         }
-    func submit() {
-        print("You entered \(newListItem)")
-        itemList.append(newListItem)
+      /*  func submit() {
+            print("You entered \(newListItem)")
+            itemList.append(newListItem)
+        }*/
     }
+    
+    
+    //WHERE IS THE ADD BUTTON
 }
-
-
-//WHERE IS THE ADD BUTTON

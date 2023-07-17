@@ -1,55 +1,48 @@
 import SwiftUI
 
-struct ContentView: View {// New struct that conforms to "View" protocol
-    // May need to use @AppStorage to declare global var
- 
-    var itemList = [
-        "Habit 1",
-        "Habit 2",
-        "Habit 3"
-    ]
-    @State var showingAlert = false
-    @State private var newListItem = ""
+struct ContentView: View {
+    @State private var itemList: [String]
+    @State private var editMode = EditMode.inactive
     
-    var body: some View {
-        
-        NavigationView {
-            
-            List {
-                ForEach(itemList, id: \.self) {item in Text(item)
-                } .onDelete { indexSet in 
-                    
-                    itemList.remove(atOffsets: indexSet)
-                } 
-                /*   .onMove { itemList.move(fromOffsets: $0, toOffset: $1)}
-                 }*/
-                
-                //.onmove, .toolbar
-                .toolbar {
-                    
-                    EditButton()
-                    Button("+") {
-                        showingAlert.toggle()
-                        print("Pressed")
-                        
-                    }
-                    /*
-                    .alert("Enter a list item", isPresented: $showingAlert) {
-                        TextField("Enter list item", text: $newListItem)
-                        Button("OK", action: submit)
-                        
-                    }*/
-                    
-                }
-                
-            }
-        }
-      /*  func submit() {
-            print("You entered \(newListItem)")
-            itemList.append(newListItem)
-        }*/
+    init() {
+        _itemList = State(initialValue: UserDefaults.standard.stringArray(forKey: "defaultHabitList") ?? ["Habit 1", "Habit 2", "Habit 3"])
     }
     
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(itemList.indices, id: \.self) { index in
+                    NavigationLink(destination: EditItemView(item: $itemList[index])) {
+                        Text(itemList[index])
+                    }
+                }
+                .onDelete { indexSet in
+                    itemList.remove(atOffsets: indexSet)
+                    updateUserHabitList()
+                }
+                .onMove { indices, newOffset in
+                    itemList.move(fromOffsets: indices, toOffset: newOffset)
+                    updateUserHabitList()
+                }
+            }
+            .navigationBarTitle("Habit list")
+            .navigationBarItems(leading: EditButton())
+            .environment(\.editMode, $editMode)
+        }
+    }
     
-    //WHERE IS THE ADD BUTTON
+    func updateUserHabitList() {
+        UserDefaults.standard.set(itemList, forKey: "defaultHabitList")
+    }
+}
+
+struct EditItemView: View {
+    @Binding var item: String
+    
+    var body: some View {
+        Form {
+            TextField("Edit Habit", text: $item)
+        }
+        .navigationBarTitle("Rename Habit")
+    }
 }

@@ -38,7 +38,7 @@ import SwiftUI
                         
                         Spacer()
                         
-                        HabitOptionsView(userHabitData: UserHabitData())
+                        HabitOptionsView(userHabitData: userHabitData)
                         //Pass in Habit object to CheckBoxView
                         
                     }
@@ -55,5 +55,7 @@ struct HabitExecutionView_Previews: PreviewProvider {
         HabitExecutionView(userHabitData: UserHabitData())
     }
 }
+
+    
 
     

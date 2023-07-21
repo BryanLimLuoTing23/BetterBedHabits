@@ -34,7 +34,7 @@ class UserHabitData : ObservableObject{
                     }
                 }
             }else {
-                model.habitModel.optionsList[index].isMatched = false
+                
                 model.habitModel.optionsList[index].isSelected = true
             }
             
@@ -71,4 +71,3 @@ extension UserHabitData{
     
     
 }
-

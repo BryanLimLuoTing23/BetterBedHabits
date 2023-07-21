@@ -1,48 +1,47 @@
 import SwiftUI
 
-struct ContentView: View {
-    @State private var itemList: [String]
-    @State private var editMode = EditMode.inactive
-    
-    init() {
-        _itemList = State(initialValue: UserDefaults.standard.stringArray(forKey: "defaultHabitList") ?? ["Habit 1", "Habit 2", "Habit 3"])
-    }
+struct HabitListView: View {
+    @ObservedObject var userHabitData: UserHabitData
+    @State private var isShowingEditView = false
     
     var body: some View {
-        NavigationView {
+        VStack {
             List {
-                ForEach(itemList.indices, id: \.self) { index in
-                    NavigationLink(destination: EditItemView(item: $itemList[index])) {
-                        Text(itemList[index])
-                    }
-                }
-                .onDelete { indexSet in
-                    itemList.remove(atOffsets: indexSet)
-                    updateUserHabitList()
-                }
-                .onMove { indices, newOffset in
-                    itemList.move(fromOffsets: indices, toOffset: newOffset)
-                    updateUserHabitList()
+                ForEach(userHabitData.model.habitModel.optionsList) { habitOption in
+                    HabitListItemView(habitOption: habitOption)
                 }
             }
-            .navigationBarTitle("Habit list")
-            .navigationBarItems(leading: EditButton())
-            .environment(\.editMode, $editMode)
+            .listStyle(InsetGroupedListStyle())
+            Spacer()
+            Button(action: {
+                isShowingEditView = true
+            }) {
+                Text("Edit")
+            }
+            Button(action: {
+                saveAndDismiss()
+            }) {
+                Text("Confirm")
+            }
+        }
+        .padding()
+        .navigationBarTitle("Habit List")
+        .sheet(isPresented: $isShowingEditView) {
+            HabitEditView(userHabitData: $userHabitData, isShowingEditView: $isShowingEditView)
         }
     }
     
-    func updateUserHabitList() {
-        UserDefaults.standard.set(itemList, forKey: "defaultHabitList")
+    private func saveAndDismiss() {
+        isShowingEditView = false
     }
 }
 
-struct EditItemView: View {
-    @Binding var item: String
+struct HabitListItemView: View {
+    var habitOption: HabitOption
     
     var body: some View {
-        Form {
-            TextField("Edit Habit", text: $item)
-        }
-        .navigationBarTitle("Rename Habit")
+        Text(habitOption.habitId)
+            .font(.headline)
     }
 }
+

@@ -1,51 +1,59 @@
 import SwiftUI
 
-struct ContentView: View {
-    @State var currentDate = Date.now
+// Main view for habit execution i.e. ContentView
+
+
+ struct HabitExecutionView: View {
+    @ObservedObject var userHabitData : UserHabitData
+  
     
-    @State var TimerValue = 0.0
-    @State var pause = false
-    let timer = Timer.publish(every: 0.01, on : .main, in: .common).autoconnect()
     
-    // Let animate 
     
-    var body: some View {
+     var body: some View {
+        ZStack{ 
+            Image("Background")
+                .resizable()
+                .aspectRatio(contentMode: ContentMode.fill) //modifiers are changeable 
+                .ignoresSafeArea()
+            //Linear gradient, and add other decorators
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text(" \(currentDate)")
+            Text("Execute your habits: ")
+                .font(.largeTitle
+                    .weight(.bold))
+                .foregroundColor(.orange)
                 .padding()
-                .border(.cyan, width:2)
-                .onReceive(timer) {input in
-                    currentDate = input}
-                    
-                    Text("\(TimerValue, specifier: "%.1f")")
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.blue, lineWidth: 3)
-                )
-                        .onReceive(timer) {_ in 
-                            if (pause == false) {
-                                TimerValue += 0.01
-                                
-                            }
-                                
-                        }
-                     
-                    Button(" Pause") {
-                        pause.toggle()
-                            
+            
+            Text("Current habit: \(userHabitData.model.habitModel.habitName )")
+                .foregroundColor(.orange)
+                .font(.system(size: 23))
+            
+            if (userHabitData.model.routineCompleted) {
+                RoutineCompletedView()
+            }
+                else{ 
+                    VStack {
+                        Text(userHabitData.model.habitModel.habitName) // Displays name of current object
+                            .padding()
+                        
+                        
+                        Spacer()
+                        
+                        HabitOptionsView(userHabitData: UserHabitData())
+                        //Pass in Habit object to CheckBoxView
+                        
                     }
-                         
-                    Button("Reset") { 
-                        TimerValue = 0.0}
-                            
-                    
-                        }
                 }
+            }
         
-    
+            } 
+        }
+    }
+
+
+struct HabitExecutionView_Previews: PreviewProvider {
+    static var previews: some View {
+        HabitExecutionView(userHabitData: UserHabitData())
+    }
 }
 
+    

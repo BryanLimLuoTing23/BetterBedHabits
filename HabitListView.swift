@@ -4,10 +4,18 @@ struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
     @State private var isShowingEditView = false
     
+    // Create a binding to userHabitData
+    @Binding private var editedUserHabitData: UserHabitData
+    
+    init(userHabitData: UserHabitData) {
+        self.userHabitData = userHabitData
+        _editedUserHabitData = State(initialValue: userHabitData)
+    }
+    
     var body: some View {
         VStack {
             List {
-                ForEach(userHabitData.model.habitModel.optionsList) { habitOption in
+                ForEach(editedUserHabitData.model.habitModel.optionsList) { habitOption in
                     HabitListItemView(habitOption: habitOption)
                 }
             }
@@ -27,11 +35,13 @@ struct HabitListView: View {
         .padding()
         .navigationBarTitle("Habit List")
         .sheet(isPresented: $isShowingEditView) {
-            HabitEditView(userHabitData: $userHabitData, isShowingEditView: $isShowingEditView)
+            HabitEditView(userHabitData: $editedUserHabitData, isShowingEditView: $isShowingEditView)
         }
     }
     
-    private func saveAndDismiss() {
+    private  func saveAndDismiss() {
+        // Update the original userHabitData with the editedUserHabitData
+        userHabitData = editedUserHabitData
         isShowingEditView = false
     }
 }
@@ -44,4 +54,3 @@ struct HabitListItemView: View {
             .font(.headline)
     }
 }
-

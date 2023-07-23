@@ -7,6 +7,29 @@ class UserHabitData : ObservableObject{
     
     static var currentIndex = 0
     
+    @Published var HabitData: [HabitModel] = 
+        
+        [HabitModel(habitName: "Wash face", 
+                    bestOption: "Choice 1", duration: 10, 
+                    
+                    optionsList:[ HabitOption(id: 10, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal ),
+                                  HabitOption(id: 11, habitId: "Choice 2", option: "Give up", colour: Color.red)] 
+                   ),
+         HabitModel(habitName: "Drink warm water", 
+                    
+                    bestOption: "Choice 1", duration: 10, 
+                    optionsList: [HabitOption(id: 20, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
+                                  HabitOption(id: 21, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
+         
+         ,
+         HabitModel(habitName: "Meditate", 
+                    bestOption: "Choice 1", duration: 20, 
+                    optionsList: [HabitOption(id: 30, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
+                                  HabitOption(id: 31, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
+         
+        ]
+    
+    
     static func createHabitModel ( i: Int ) -> Habits {
         return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
     }
@@ -45,33 +68,5 @@ class UserHabitData : ObservableObject{
             
         }
     }
-}
-
-extension UserHabitData{
-    
-    @Published var HabitData: [HabitModel]{
-        
-       [HabitModel(habitName: "Wash face", 
-                   bestOption: "Choice 1", duration: 10, 
-                   
-                   optionsList:[ HabitOption(id: 10, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal ),
-                                 HabitOption(id: 11, habitId: "Choice 2", option: "Give up", colour: Color.red)] 
-                   ),
-        HabitModel(habitName: "Drink warm water", 
-       
-                   bestOption: "Choice 1", duration: 10, 
-                   optionsList: [HabitOption(id: 20, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
-                   HabitOption(id: 21, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
-                   
-               ,
-       HabitModel(habitName: "Meditate", 
-                  bestOption: "Choice 1", duration: 20, 
-                  optionsList: [HabitOption(id: 30, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
-                                HabitOption(id: 31, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
-       
-       ]
-    }
-    
-    
 }
 

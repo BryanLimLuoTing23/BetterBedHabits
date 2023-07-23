@@ -1,22 +1,21 @@
 import SwiftUI
 
-struct HabitListView: View {
+public struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
-    @State private var isShowingEditView = false
+    @Binding private var isShowingEditView = false
+    @Binding private var editedHabitNames: [String] = []
     
-    // Create a binding to userHabitData
-    @Binding private var editedUserHabitData: UserHabitData
-    
-    init(userHabitData: UserHabitData) {
-        self.userHabitData = userHabitData
-        _editedUserHabitData = State(initialValue: userHabitData)
-    }
+    //Initially you need a copy of the current data.
     
     var body: some View {
+        for index in UserHabitData.HabitData.indices{
+            editedHabitNames.append(userHabitData.HabitData[index].habitName)
+        }
+        
         VStack {
             List {
-                ForEach(editedUserHabitData.model.habitModel.optionsList) { habitOption in
-                    HabitListItemView(habitOption: habitOption)
+                ForEach(editedHabitNames.indices, id: \.self) { index in
+                    HabitListItemView(habitName: editedHabitNames[index])
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -35,22 +34,27 @@ struct HabitListView: View {
         .padding()
         .navigationBarTitle("Habit List")
         .sheet(isPresented: $isShowingEditView) {
-            HabitEditView(userHabitData: $editedUserHabitData, isShowingEditView: $isShowingEditView)
+            HabitEditView(editedHabitNames: $editedHabitNames, isShowingEditView: $isShowingEditView)
         }
     }
     
-    private  func saveAndDismiss() {
-        // Update the original userHabitData with the editedUserHabitData
-        userHabitData = editedUserHabitData
+    private func saveAndDismiss() {
+        // Update the original userHabitData with the edited habits
+        for index in editedHabitNames.indices{
+            UserHabitData.HabitData[index].habitName = editedHabitNames[index]
+        }
+        
         isShowingEditView = false
     }
 }
 
 struct HabitListItemView: View {
-    var habitOption: HabitOption
+    var habitName: String
     
     var body: some View {
-        Text(habitOption.habitId)
+        Text(habitName)
             .font(.headline)
     }
 }
+
+

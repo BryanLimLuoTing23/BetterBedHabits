@@ -30,14 +30,21 @@ class UserHabitData : ObservableObject{
         ]
     
     
-    static func createHabitModel ( i: Int ) -> Habits {
+     
+  
+    @Published var model: Habits = Habits(currentHabitIndex: 0, habitModel: HabitModel(habitName: "", bestOption: "", duration: 0, optionsList: []), routineCompleted: false)
+    
+    init() {
+        model = createHabitModel(i: UserHabitData.currentIndex)
+    }
+    
+    func createHabitModel ( i: Int ) -> Habits {
         return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
     }
     //It returns a new Habits() object, for one habit
     //habitModel is a convention for the MVVM model. 
     //Here, habitModel stores the data for ONE habit
-    
-    @Published var model = UserHabitData.createHabitModel(i: UserHabitData.currentIndex)
+     
     
     
     func verifyHabitCompleted(selectedOption: HabitOption) {
@@ -54,7 +61,7 @@ class UserHabitData : ObservableObject{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if (UserHabitData.currentIndex < 2) {
                         UserHabitData.currentIndex = UserHabitData.currentIndex+1
-                        self.model = UserHabitData.createHabitModel(i: UserHabitData.currentIndex)
+                        self.model = self.createHabitModel(i: UserHabitData.currentIndex)
                     } else {
                         self.model.routineCompleted = true
                     }
@@ -69,4 +76,3 @@ class UserHabitData : ObservableObject{
         }
     }
 }
-

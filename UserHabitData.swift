@@ -1,7 +1,7 @@
 import SwiftUI
 
 // Stores user habits object
-// Similar to GameManagerVM
+
 
 class UserHabitData : ObservableObject{
     

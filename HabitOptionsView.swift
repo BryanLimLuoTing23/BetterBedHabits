@@ -22,7 +22,7 @@ struct OptionBoxView : View {
     var body: some View {
         VStack{
             if (habitOption.isMatched) && (habitOption.isSelected) {
-                OptionSelectedImageDisplayer(imageName: "Filled Checkbox" )
+                OptionSelectedImageDisplayer(imageName: "Filled checkbox" )
             }
             else if ( habitOption.isMatched == false) &&  (habitOption.isSelected == true ){
                 OptionSelectedImageDisplayer(imageName: "Crossed" )
@@ -30,8 +30,8 @@ struct OptionBoxView : View {
             else { 
                 DefaultCheckBoxView(habitOption: habitOption)
             }
-        }.frame(width: 100, height: 100)
-            .background(Color.gray)
+        }.frame(width: 100, height: 80)
+            .border(Color.black, width: 2)
     }
 }
 
@@ -68,4 +68,3 @@ struct OptionSelectedImageDisplayer: View {
     }
     
 }
-

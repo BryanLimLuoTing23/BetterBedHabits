@@ -2,15 +2,19 @@ import SwiftUI
 
 public struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
-    @Binding private var isShowingEditView = false
-    @Binding private var editedHabitNames: [String] = []
+    @State private var isShowingEditView = false
+    @State private var editedHabitNames: [String] = []
     
+    init(userHabitData: UserHabitData) {
+        self.userHabitData = userHabitData
+        for index in userHabitData.HabitData.indices{
+            self._editedHabitNames.wrappedValue.append(userHabitData.HabitData[index].habitName)
+        }
+        
+    }
     //Initially you need a copy of the current data.
     
-    var body: some View {
-        for index in UserHabitData.HabitData.indices{
-            editedHabitNames.append(userHabitData.HabitData[index].habitName)
-        }
+    public var body: some View {
         
         VStack {
             List {
@@ -56,5 +60,4 @@ struct HabitListItemView: View {
             .font(.headline)
     }
 }
-
 

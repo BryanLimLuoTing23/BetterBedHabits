@@ -5,6 +5,7 @@ import SwiftUI
 
  struct HabitExecutionView: View {
     @ObservedObject var userHabitData : UserHabitData
+     @State private var isShowingHabitListView = false
   
     
     
@@ -27,6 +28,11 @@ import SwiftUI
                 .foregroundColor(.orange)
                 .font(.system(size: 23))
             
+            Button(action: {
+                isShowingHabitListView = true
+                
+            }) {Text("View Habit List")}
+            
             if (userHabitData.model.routineCompleted) {
                 RoutineCompletedView()
             }
@@ -39,11 +45,16 @@ import SwiftUI
                         Spacer()
                         
                         HabitOptionsView(userHabitData: userHabitData)
-                        //Pass in Habit object to CheckBoxView
+                        //Pass in Habit object to HabitOptionsView
+                        
+                        NavigationLink(destination: HabitListView(userHabitData: userHabitData) {
+                            Text("View Habit List")
+                        })
                         
                     }
                 }
             }
+        
         
             } 
         }
@@ -55,7 +66,5 @@ struct HabitExecutionView_Previews: PreviewProvider {
         HabitExecutionView(userHabitData: UserHabitData())
     }
 }
-
-    
 
     

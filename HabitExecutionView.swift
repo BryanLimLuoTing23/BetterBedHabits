@@ -47,9 +47,9 @@ import SwiftUI
                         HabitOptionsView(userHabitData: userHabitData)
                         //Pass in Habit object to HabitOptionsView
                         
-                        NavigationLink(destination: HabitListView(userHabitData: userHabitData) {
+                        NavigationLink(destination: HabitListView(userHabitData: userHabitData)) {
                             Text("View Habit List")
-                        })
+                        }
                         
                     }
                 }

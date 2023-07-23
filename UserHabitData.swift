@@ -10,6 +10,9 @@ class UserHabitData : ObservableObject{
     static func createHabitModel ( i: Int ) -> Habits {
         return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
     }
+    //It returns a new Habits() object, for one habit
+    //habitModel is a convention for the MVVM model. 
+    //Here, habitModel stores the data for ONE habit
     
     @Published var model = UserHabitData.createHabitModel(i: UserHabitData.currentIndex)
     
@@ -46,7 +49,7 @@ class UserHabitData : ObservableObject{
 
 extension UserHabitData{
     
-    static var HabitData: [HabitModel]{
+    @Published var HabitData: [HabitModel]{
         
        [HabitModel(habitName: "Wash face", 
                    bestOption: "Choice 1", duration: 10, 
@@ -71,3 +74,4 @@ extension UserHabitData{
     
     
 }
+

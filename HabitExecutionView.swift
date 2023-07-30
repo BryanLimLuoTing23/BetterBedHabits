@@ -28,12 +28,8 @@ import SwiftUI
                 .foregroundColor(.orange)
                 .font(.system(size: 23))
             
-            Button(action: {
-                isShowingHabitListView = true
-                
-            }) {Text("View Habit List")}
-            
-            if (userHabitData.model.routineCompleted) {
+             
+            if ($userHabitData.model.routineCompleted.wrappedValue) {
                 RoutineCompletedView()
             }
                 else{ 
@@ -47,9 +43,8 @@ import SwiftUI
                         HabitOptionsView(userHabitData: userHabitData)
                         //Pass in Habit object to HabitOptionsView
                         
-                        NavigationLink(destination: HabitListView(userHabitData: userHabitData)) {
-                            Text("View Habit List")
-                        }
+                         
+                            
                         
                     }
                 }

@@ -40,12 +40,15 @@ class UserHabitData : ObservableObject{
     
     
      
-  
+  //model property represents curent habit
+  //Gets updated by verifyHabitCompleted
     @Published var model: Habits = Habits(currentHabitIndex: 0, habitModel: HabitModel(habitName: "", duration: 0, optionsList: []), routineCompleted: false)
+    //Declare model as an instance of Habits
     
     init() {
         model = createHabitModel(i: UserHabitData.currentIndex)
     }
+    //Explanation: now since model is @Published, if model is updated, all views are triggered to be auto-updated.
     
     func createHabitModel ( i: Int ) -> Habits {
         return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
@@ -83,6 +86,10 @@ class UserHabitData : ObservableObject{
             
             
         }
+    }
+    func restart() {
+        UserHabitData.currentIndex = 0
+        model = createHabitModel(i: UserHabitData.currentIndex)
     }
 }
 

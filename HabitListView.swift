@@ -12,42 +12,76 @@ public struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
     @State private var isShowingEditView = false
     @State private var editedHabitNames: [String] = []
+    @State private var durationTestArray: [TimeInterval]
+    = [1,2,3]
 
-    func move(from source: IndexSet, to destination: Int) {
+    func moveHabitItem(from source: IndexSet, to destination: Int) {
         editedHabitNames.move(fromOffsets: source, toOffset: destination)
+        durationTestArray.move(fromOffsets: source, toOffset: destination)
     }
-
-    func deleteItem(at offsets: IndexSet) {
+    
+    
+    
+    func deleteHabitItem(at offsets: IndexSet) {
         editedHabitNames.remove(atOffsets: offsets)
+        durationTestArray.remove(atOffsets: offsets)
     }
+    
+    //Change background color when editing
 
     public var body: some View {
         VStack {
             List {
-                ForEach(editedHabitNames.indices, id: \.self) { index in
-                    if isShowingEditView {
-                        TextField("Enter new habit", text: $editedHabitNames[index])
-                    } else {
-                        Text(editedHabitNames[index])
+                Section(header: Text("Habit names")){
+                    ForEach(editedHabitNames.indices, id: \.self) { index in
+                        if isShowingEditView {
+                            TextField("Enter new habit", text: $editedHabitNames[index])
+                        } else {
+                            Text(editedHabitNames[index])
+                        }
                     }
+                    .onMove(perform: moveHabitItem)
+                    .onDelete(perform: deleteHabitItem)
+                    
                 }
-                .onMove(perform: move)
-                .onDelete(perform: deleteItem)
+                Section(header: Text("Durations (seconds)")){
+                    ForEach(durationTestArray.indices, id: \.self) {
+                        index in
+                        Text(String(durationTestArray[index]))
+                    }
+                    .onMove(perform: moveHabitItem)
+                    .onDelete(perform: deleteHabitItem)
+                    
+                    
+                    
+                }
+                
             }
             .listStyle(SidebarListStyle())
 
             Spacer()
-
-            if !isShowingEditView {
-                Button("Edit") {
-                    isShowingEditView = true
+            HStack{
+                if !isShowingEditView {
+                    Button("Edit") {
+                        isShowingEditView = true
+                    }
+                } else {
+                    Button("Done") {
+                        isShowingEditView = false
+                        updateHabitData()
+                    }
                 }
-            } else {
-                Button("Done") {
-                    isShowingEditView = false
-                    updateHabitData()
+                
+                Spacer()
+                
+                Button("Add") {
+                    editedHabitNames.append("New Habit")
+                    durationTestArray.append(10)
+                    
                 }
+                
             }
+            
         }
         .padding()
         .onAppear {
@@ -61,7 +95,7 @@ public struct HabitListView: View {
         for index in editedHabitNames.indices {
             newHabitData.append( HabitModel(habitName: editedHabitNames[index],
                                             
-                duration: 10,
+                                            duration: durationTestArray[index],
                 
                                             optionsList: [HabitOption(id: Int( String("\(index+1)0")   )!, option: "Mark as finished"),
                                                           HabitOption(id: Int(String("\(index+1)1"))!, option: "Unable to complete")

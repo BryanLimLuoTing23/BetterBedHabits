@@ -1,3 +1,12 @@
+//
+//  HabitExecutionView.swift
+//  Bedtime Bliss
+//
+//  Created by Bryan Lim Luo Ting on 30/07/2023.
+//
+
+import Foundation
+
 import SwiftUI
 
 // Main view for habit execution i.e. ContentView
@@ -11,13 +20,8 @@ import SwiftUI
     
     
      var body: some View {
-        ZStack{ 
-            Image("Background")
-                .resizable()
-                .aspectRatio(contentMode: ContentMode.fill) //modifiers are changeable 
-                .ignoresSafeArea()
-            //Linear gradient, and add other decorators
-        VStack {
+        ZStack{
+                   VStack {
             Text("Execute your habits: ")
                 .font(.largeTitle
                     .weight(.bold))
@@ -32,7 +36,7 @@ import SwiftUI
             if ($userHabitData.model.routineCompleted.wrappedValue) {
                 RoutineCompletedView()
             }
-                else{ 
+                else{
                     VStack {
                         Text(userHabitData.model.habitModel.habitName) // Displays name of current object
                             .padding()
@@ -51,7 +55,7 @@ import SwiftUI
             }
         
         
-            } 
+            }
         }
     }
 

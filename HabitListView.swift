@@ -12,19 +12,19 @@ public struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
     @State private var isShowingEditView = false
     @State private var editedHabitNames: [String] = []
-    @State private var durationTestArray: [TimeInterval]
-    = [1,2,3]
+    @State private var editedDurationArray: [TimeInterval]
+    = []
 
     func moveHabitItem(from source: IndexSet, to destination: Int) {
         editedHabitNames.move(fromOffsets: source, toOffset: destination)
-        durationTestArray.move(fromOffsets: source, toOffset: destination)
+        editedDurationArray.move(fromOffsets: source, toOffset: destination)
     }
     
     
     
     func deleteHabitItem(at offsets: IndexSet) {
         editedHabitNames.remove(atOffsets: offsets)
-        durationTestArray.remove(atOffsets: offsets)
+        editedDurationArray.remove(atOffsets: offsets)
     }
     
     //Change background color when editing
@@ -44,10 +44,17 @@ public struct HabitListView: View {
                     .onDelete(perform: deleteHabitItem)
                     
                 }
-                Section(header: Text("Durations (seconds)")){
-                    ForEach(durationTestArray.indices, id: \.self) {
+                Section(header: Text("Estimated time needed (minutes)")){
+                    ForEach(editedDurationArray.indices, id: \.self) {
                         index in
-                        Text(String(durationTestArray[index]))
+                        Text("Habit " + String(index+1) + " duration: " + String(format: "%.1f", editedDurationArray[index]) + " minutes")
+                            .foregroundColor(.blue)
+                        
+                        Slider(value: $editedDurationArray[index],
+                               in: 0.5...60,
+                               step: 0.5)
+                        
+                        
                     }
                     .onMove(perform: moveHabitItem)
                     .onDelete(perform: deleteHabitItem)
@@ -62,7 +69,7 @@ public struct HabitListView: View {
             Spacer()
             HStack{
                 if !isShowingEditView {
-                    Button("Edit") {
+                    Button("Edit Habit Names") {
                         isShowingEditView = true
                     }
                 } else {
@@ -74,28 +81,38 @@ public struct HabitListView: View {
                 
                 Spacer()
                 
+                Button("Save data") {
+                    updateHabitData()
+                }
+                
+                Spacer()
+                
                 Button("Add") {
                     editedHabitNames.append("New Habit")
-                    durationTestArray.append(10)
+                    editedDurationArray.append(10)
                     
                 }
                 
             }
+            .padding()
+            .onAppear {
+                editedHabitNames = userHabitData.HabitData.map { $0.habitName }
+                editedDurationArray = userHabitData.HabitData.map { $0.duration }
+            } //Retrieve current habit names into the edit buffer array
+            
             
         }
-        .padding()
-        .onAppear {
-            editedHabitNames = userHabitData.HabitData.map { $0.habitName }
-        } //Retrieve current habit names into the edit buffer arrap
-    }
 
+            
+        }
+        
     private func updateHabitData() {
         var newHabitData: [HabitModel] = []
         // Update the original userHabitData with the edited habits
         for index in editedHabitNames.indices {
             newHabitData.append( HabitModel(habitName: editedHabitNames[index],
                                             
-                                            duration: durationTestArray[index],
+                                            duration: editedDurationArray[index],
                 
                                             optionsList: [HabitOption(id: Int( String("\(index+1)0")   )!, option: "Mark as finished"),
                                                           HabitOption(id: Int(String("\(index+1)1"))!, option: "Unable to complete")

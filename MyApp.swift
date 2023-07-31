@@ -13,20 +13,21 @@ import SwiftUI
 
 struct MyApp: App {
     
-    //@ObservedObject var
+    @ObservedObject var userHabitData = UserHabitData()
     var body: some Scene {
         WindowGroup {
             TabView {
-                HabitExecutionView(userHabitData: UserHabitData())
+                HabitListView(userHabitData: userHabitData)
+                                    .tabItem {
+                                    Label("Habit List", systemImage: "list.bullet")
+                                }
+                HabitExecutionView(userHabitData: userHabitData)
                     .tabItem {
                         Label("Execution", systemImage: "play.circle")
                     }
                     .background(Color.green)
                 
-                HabitListView(userHabitData: UserHabitData())
-                    .tabItem {
-                    Label("Habit List", systemImage: "list.bullet")
-                }
+                
             }
         }
     }

@@ -1,15 +1,25 @@
+//
+//  HabitOptionsView.swift
+//  Bedtime Bliss
+//
+//  Created by Bryan Lim Luo Ting on 30/07/2023.
+//
+
+import Foundation
 import SwiftUI
+
 
 struct HabitOptionsView: View {
     var userHabitData: UserHabitData
     var columns: [GridItem] = Array(repeating: GridItem(.fixed(90), spacing: 20), count: 2)
-    var body: some View { 
+    var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 30 ) {
-            ForEach ( userHabitData.model.habitModel.optionsList) {
-                HabitOptionLooper in 
-                OptionBoxView(habitOption: HabitOptionLooper)
-                    .onTapGesture {
-                        userHabitData.verifyHabitCompleted(selectedOption: HabitOptionLooper)
+            ForEach ( userHabitData.model.habitModel.optionsList) {  //For each option
+                currentHabitOption in
+                OptionBoxView(habitOption: currentHabitOption)   //Show the optionboxview
+                    .onTapGesture { //Modifier to the OptionBoxView
+                        userHabitData.verifyHabitCompleted(selectedOption: currentHabitOption)
+                        //Check if option is the right option
                     }
             }
         }
@@ -27,7 +37,7 @@ struct OptionBoxView : View {
             else if ( habitOption.isMatched == false) &&  (habitOption.isSelected == true ){
                 OptionSelectedImageDisplayer(imageName: "Crossed" )
             }
-            else { 
+            else {
                 DefaultCheckBoxView(habitOption: habitOption)
             }
         }.frame(width: 100, height: 80)
@@ -39,11 +49,6 @@ struct DefaultCheckBoxView: View {
     var habitOption: HabitOption
     var body: some View {
         VStack{
-            Text(habitOption.habitId)
-                .font(.system(size: 19))
-                .frame(width: 80, height: 50)
-                .foregroundColor(.black)
-                .cornerRadius(3.0, antialiased: true)
             
             Text(habitOption.option)
                 .frame(width: 90, height: 90)

@@ -34,7 +34,7 @@ import SwiftUI
             
              
             if ($userHabitData.model.routineCompleted.wrappedValue) {
-                RoutineCompletedView()
+                RoutineCompletedView(userHabitData: userHabitData)
             }
                 else{
                     VStack {
@@ -47,7 +47,11 @@ import SwiftUI
                         HabitOptionsView(userHabitData: userHabitData)
                         //Pass in Habit object to HabitOptionsView
                         
-                         
+                         Spacer()
+                        
+                        Button("Refresh and restart") {
+                            userHabitData.restart()
+                        }
                             
                         
                     }
@@ -56,6 +60,8 @@ import SwiftUI
         
         
             }
+         
+         
         }
     }
 

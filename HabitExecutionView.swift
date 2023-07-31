@@ -29,7 +29,7 @@ import SwiftUI
                 .padding()
             
             Text("Current habit: \(userHabitData.model.habitModel.habitName )")
-                .foregroundColor(.orange)
+                .foregroundColor(.black)
                 .font(.system(size: 23))
             
              
@@ -38,7 +38,7 @@ import SwiftUI
             }
                 else{
                     VStack {
-                        Text(userHabitData.model.habitModel.habitName) // Displays name of current object
+                        Text("User perscribed duration - " + String(userHabitData.model.habitModel.duration) + " minutes" ) // Displays name of current object
                             .padding()
                         
                         
@@ -53,6 +53,7 @@ import SwiftUI
                             userHabitData.restart()
                         }
                             
+                        Spacer()
                         
                     }
                 }

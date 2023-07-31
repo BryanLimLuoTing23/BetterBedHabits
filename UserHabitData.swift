@@ -18,7 +18,7 @@ class UserHabitData : ObservableObject{
         
         [HabitModel(habitName: "Fill habit here 1",
                     
-                    duration: 10,
+                    duration: 6,
                     
                     optionsList:[ HabitOption(id: 10, option: "Mark as finished" ),
                                   HabitOption(id: 11, option: "Unable to complete")]
@@ -32,7 +32,7 @@ class UserHabitData : ObservableObject{
          ,
          HabitModel(habitName: "Fill habit here 3",
                     
-                    duration: 20,
+                    duration: 5,
                     optionsList: [HabitOption(id: 30, option: "Mark as finished"),
                                   HabitOption(id: 31, option: "Unable to complete")])
          
@@ -71,7 +71,7 @@ class UserHabitData : ObservableObject{
                 model.habitModel.optionsList[index].isSelected = true
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if (UserHabitData.currentIndex < 2) {
+                    if (UserHabitData.currentIndex < self.HabitData.count - 1) { //I.e. not finished
                         UserHabitData.currentIndex = UserHabitData.currentIndex+1
                         self.model = self.createHabitModel(i: UserHabitData.currentIndex)
                     } else {

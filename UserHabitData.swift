@@ -1,38 +1,47 @@
+//
+//  UserHabitData.swift
+//  Bedtime Bliss
+//
+//  Created by Bryan Lim Luo Ting on 30/07/2023.
+//
+
+import Foundation
 import SwiftUI
 
-// Stores user habits object
 
 
 class UserHabitData : ObservableObject{
     
     static var currentIndex = 0
     
-    @Published var HabitData: [HabitModel] = 
+    @Published var HabitData: [HabitModel] =
         
-        [HabitModel(habitName: "Wash face", 
-                    bestOption: "Choice 1", duration: 10, 
+        [HabitModel(habitName: "Fill habit here 1",
                     
-                    optionsList:[ HabitOption(id: 10, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal ),
-                                  HabitOption(id: 11, habitId: "Choice 2", option: "Give up", colour: Color.red)] 
+                    duration: 10,
+                    
+                    optionsList:[ HabitOption(id: 10, option: "Mark as finished" ),
+                                  HabitOption(id: 11, option: "Unable to complete")]
                    ),
-         HabitModel(habitName: "Drink warm water", 
+         HabitModel(habitName: "Fill habit here 2",
                     
-                    bestOption: "Choice 1", duration: 10, 
-                    optionsList: [HabitOption(id: 20, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
-                                  HabitOption(id: 21, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
+                    duration: 10,
+                    optionsList: [HabitOption(id: 20, option: "Mark as finished"),
+                                  HabitOption(id: 21, option: "Unable to complete")])
          
          ,
-         HabitModel(habitName: "Meditate", 
-                    bestOption: "Choice 1", duration: 20, 
-                    optionsList: [HabitOption(id: 30, habitId: "Choice 1", option: "Mark as finished", colour: Color.teal),
-                                  HabitOption(id: 31, habitId: "Choice 2", option: "Unable to complete", colour: Color.red)])
+         HabitModel(habitName: "Fill habit here 3",
+                    
+                    duration: 20,
+                    optionsList: [HabitOption(id: 30, option: "Mark as finished"),
+                                  HabitOption(id: 31, option: "Unable to complete")])
          
         ]
     
     
      
   
-    @Published var model: Habits = Habits(currentHabitIndex: 0, habitModel: HabitModel(habitName: "", bestOption: "", duration: 0, optionsList: []), routineCompleted: false)
+    @Published var model: Habits = Habits(currentHabitIndex: 0, habitModel: HabitModel(habitName: "", duration: 0, optionsList: []), routineCompleted: false)
     
     init() {
         model = createHabitModel(i: UserHabitData.currentIndex)
@@ -42,7 +51,7 @@ class UserHabitData : ObservableObject{
         return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
     }
     //It returns a new Habits() object, for one habit
-    //habitModel is a convention for the MVVM model. 
+    //habitModel is a convention for the MVVM model.
     //Here, habitModel stores the data for ONE habit
      
     
@@ -53,8 +62,8 @@ class UserHabitData : ObservableObject{
             model.habitModel.optionsList[index].isMatched = false
             model.habitModel.optionsList[index].isSelected = false
         }
-        if let index = model.habitModel.optionsList.firstIndex(where: {$0.habitId == selectedOption.habitId}) {
-            if selectedOption.habitId == model.habitModel.bestOption {
+        if let index = model.habitModel.optionsList.firstIndex(where: {$0.option == selectedOption.option})  { //Get index of current habit
+            if selectedOption.option == "Mark as finished" {
                 model.habitModel.optionsList[index].isMatched = true
                 model.habitModel.optionsList[index].isSelected = true
                 
@@ -76,3 +85,5 @@ class UserHabitData : ObservableObject{
         }
     }
 }
+
+

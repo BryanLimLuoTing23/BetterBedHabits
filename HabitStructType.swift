@@ -13,7 +13,6 @@ import SwiftUI
 //Creates class for Habits to be stored
 
 struct Habits {
-    var currentHabitIndex: Int
     var habitModel : HabitModel
     var routineCompleted: Bool
 }
@@ -24,6 +23,7 @@ struct HabitModel{
 }
 
 struct HabitOption : Identifiable {
+    //Try deleting int?
     var id: Int
     var option: String
     var isSelected : Bool = false

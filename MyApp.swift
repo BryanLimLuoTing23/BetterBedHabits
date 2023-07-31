@@ -1,7 +1,19 @@
+//
+//  MyApp.swift
+//  Bedtime Bliss
+//
+//  Created by Bryan Lim Luo Ting on 30/07/2023.
+//
+
+import Foundation
 import SwiftUI
 
+
 @main
+
 struct MyApp: App {
+    
+    //@ObservedObject var
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -10,10 +22,9 @@ struct MyApp: App {
                         Label("Execution", systemImage: "play.circle")
                     }
                     .background(Color.green)
-                NavigationView {
-                    HabitListView(userHabitData: UserHabitData())
-                }
-                .tabItem {
+                
+                HabitListView(userHabitData: UserHabitData())
+                    .tabItem {
                     Label("Habit List", systemImage: "list.bullet")
                 }
             }

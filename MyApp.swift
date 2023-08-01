@@ -25,7 +25,14 @@ struct MyApp: App {
                     .tabItem {
                         Label("Execution", systemImage: "play.circle")
                     }
-                    .background(Color.purple)
+                    .background(
+                                    RadialGradient(
+                                        gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.purple]),
+                                        center: .center,
+                                        startRadius: 0,
+                                        endRadius: 500
+                                    )
+                                )
                 
                 
             }

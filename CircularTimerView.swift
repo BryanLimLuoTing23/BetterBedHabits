@@ -1,7 +1,15 @@
+//
+//  CircularTimerView.swift
+//  Bedtime Bliss
+//
+//  Created by Bryan Lim Luo Ting on 01/08/2023.
+//
+
 import SwiftUI
 
-struct ContentView: View {
-    @State var color: Color = .blue
+
+struct CircularTimerView: View {
+    @State var color: Color = .black
     
     @State var timeElapsed: Int = 0
     var countTo: Int = 68
@@ -42,9 +50,16 @@ struct CircularProgressBar: View {
     var body: some View {
         ZStack {
             Circle()
-                .trim(from: 0.0, to: progress)
-                .stroke(color, style: StrokeStyle(lineWidth: 25, lineCap: .round))
-                .rotationEffect(Angle(degrees: -90))
+                .fill(Color.clear)
+                .frame(width: 100, height: 100)
+                .overlay(
+                    Circle()
+                    .trim(from: 0.0, to: progress)
+                    .stroke(color, style: StrokeStyle(lineWidth: 25, lineCap: .round))
+                    .rotationEffect(Angle(degrees: -90))
+                )
+            
+           
         }
     }
 }
@@ -72,6 +87,6 @@ struct Clock: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CircularTimerView()
     }
 }

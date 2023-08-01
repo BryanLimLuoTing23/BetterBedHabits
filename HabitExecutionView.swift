@@ -39,6 +39,7 @@ import SwiftUI
              
             if ($userHabitData.model.routineCompleted.wrappedValue) {
                 RoutineCompletedView(userHabitData: userHabitData)
+                    
             }
                 else{
                     VStack {

@@ -42,7 +42,7 @@ class UserHabitData : ObservableObject{
      
   //model property represents curent habit
   //Gets updated by verifyHabitCompleted
-    @Published var model: Habits = Habits(currentHabitIndex: 0, habitModel: HabitModel(habitName: "", duration: 0, optionsList: []), routineCompleted: false)
+    @Published var model: Habits = Habits( habitModel: HabitModel(habitName: "", duration: 0, optionsList: []), routineCompleted: false)
     //Declare model as an instance of Habits
     
     init() {
@@ -51,7 +51,7 @@ class UserHabitData : ObservableObject{
     //Explanation: now since model is @Published, if model is updated, all views are triggered to be auto-updated.
     
     func createHabitModel ( i: Int ) -> Habits {
-        return Habits(currentHabitIndex: i, habitModel: HabitData[i], routineCompleted: false)
+        return Habits( habitModel: HabitData[i], routineCompleted: false)
     }
     //It returns a new Habits() object, for one habit
     //habitModel is a convention for the MVVM model.
@@ -70,7 +70,7 @@ class UserHabitData : ObservableObject{
                 model.habitModel.optionsList[index].isMatched = true
                 model.habitModel.optionsList[index].isSelected = true
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     if (UserHabitData.currentIndex < self.HabitData.count - 1) { //I.e. not finished
                         UserHabitData.currentIndex = UserHabitData.currentIndex+1
                         self.model = self.createHabitModel(i: UserHabitData.currentIndex)

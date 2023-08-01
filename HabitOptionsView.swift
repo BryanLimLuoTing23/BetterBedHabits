@@ -12,6 +12,8 @@ import SwiftUI
 struct HabitOptionsView: View {
     @ObservedObject var userHabitData: UserHabitData
     @Binding var resetTimer: Bool
+    @State private var userInteractionEnabled = true
+    
     var columns: [GridItem] = Array(repeating: GridItem(.fixed(90), spacing: 100), count: 2)
     var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 30 ) {
@@ -25,7 +27,13 @@ struct HabitOptionsView: View {
                         if currentHabitOption.option == "Mark as finished" {
                             resetTimer = true // Add this line
                                                 }
+                        
+                        userInteractionEnabled = false
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                        userInteractionEnabled = true
+                                                    } //Lol this spam prevention didn't work
                     }
+                
             }
         }
     }

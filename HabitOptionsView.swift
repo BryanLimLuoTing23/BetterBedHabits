@@ -62,7 +62,7 @@ struct DefaultCheckBoxView: View {
             Text(habitOption.option)
                 .frame(width: 90, height: 90)
                 .font(.system(size: 19))
-                .foregroundColor(.brown)
+                .foregroundColor(.white)
                 .opacity(1)
             
         }

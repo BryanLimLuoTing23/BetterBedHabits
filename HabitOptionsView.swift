@@ -10,7 +10,8 @@ import SwiftUI
 
 
 struct HabitOptionsView: View {
-    var userHabitData: UserHabitData
+    @ObservedObject var userHabitData: UserHabitData
+    @Binding var resetTimer: Bool
     var columns: [GridItem] = Array(repeating: GridItem(.fixed(90), spacing: 20), count: 2)
     var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 30 ) {
@@ -20,6 +21,10 @@ struct HabitOptionsView: View {
                     .onTapGesture { //Modifier to the OptionBoxView
                         userHabitData.verifyHabitCompleted(selectedOption: currentHabitOption)
                         //Check if option is the right option
+                        
+                        if currentHabitOption.option == "Mark as finished" {
+                            resetTimer = true // Add this line
+                                                }
                     }
             }
         }

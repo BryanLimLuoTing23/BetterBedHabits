@@ -17,7 +17,7 @@ struct HabitOptionsView: View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 30 ) {
             ForEach ( userHabitData.model.habitModel.optionsList) {  //For each option
                 currentHabitOption in
-                OptionBoxView(habitOption: currentHabitOption)   //Show the optionboxview
+                OptionBoxView(habitOption: currentHabitOption)//Show the optionboxview
                     .onTapGesture { //Modifier to the OptionBoxView
                         userHabitData.verifyHabitCompleted(selectedOption: currentHabitOption)
                         //Check if option is the right option
@@ -45,8 +45,12 @@ struct OptionBoxView : View {
             else {
                 DefaultCheckBoxView(habitOption: habitOption)
             }
-        }.frame(width: 100, height: 80)
-            .border(Color.black, width: 2)
+        }.frame(width: 70, height: 80)
+            .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue.opacity(0.7))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+        
     }
 }
 
@@ -73,7 +77,7 @@ struct OptionSelectedImageDisplayer: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(EdgeInsets( top: 30, leading: 30, bottom: 30, trailing: 30))
-            .foregroundColor(.blue)
+         //   .foregroundColor(.blue)
         
     }
     

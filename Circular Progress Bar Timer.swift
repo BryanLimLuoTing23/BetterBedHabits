@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            ProgressBar(progress: CGFloat(timeElapsed) / CGFloat(countTo), color: (completed() ? Color.orange : Color.green))
+            CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(countTo), color: (completed() ? Color.orange : Color.green))
                 .frame(width: 200, height: 200)
             
             Clock(timeElapsed: timeElapsed, countTo: countTo)
@@ -35,7 +35,7 @@ struct ContentView: View {
     }
 }
 
-struct ProgressBar: View {
+struct CircularProgressBar: View {
     var progress: CGFloat
     var color: Color
     

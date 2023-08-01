@@ -5,6 +5,11 @@
 //  Created by Bryan Lim Luo Ting on 30/07/2023.
 //
 
+
+//TODO Remove Edit Button, and then just have the save data button.
+// The save button will be grayed out when no changes are made, but will be made blue when changes are made and you need to save.
+
+//Or just auto save and auto edit? 
 import Foundation
 import SwiftUI
 
@@ -47,12 +52,12 @@ public struct HabitListView: View {
                 Section(header: Text("Estimated time needed (minutes)")){
                     ForEach(editedDurationArray.indices, id: \.self) {
                         index in
-                        Text("Habit " + String(index+1) + " duration: " + String(format: "%.1f", editedDurationArray[index]) + " minutes")
+                        Text(editedHabitNames[index] + " duration: " + String(format: "%.1f", editedDurationArray[index]) + " minutes")
                             .foregroundColor(.blue)
                         
                         Slider(value: $editedDurationArray[index],
-                               in: 0.5...60,
-                               step: 0.5)
+                               in: 0.2...60,
+                               step: 0.2)
                         
                         
                     }
@@ -87,7 +92,7 @@ public struct HabitListView: View {
                 
                 Spacer()
                 
-                Button("Add") {
+                Button("+") {
                     editedHabitNames.append("New Habit")
                     editedDurationArray.append(10)
                     

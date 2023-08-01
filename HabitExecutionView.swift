@@ -26,16 +26,20 @@ import SwiftUI
      var body: some View {
         ZStack{
                    VStack {
-            Text("Execute your habits: ")
-                .font(.largeTitle
-                    .weight(.bold))
-                .foregroundColor(.orange)
-                .padding()
-            
-            Text("Current habit: \(userHabitData.model.habitModel.habitName )")
-                .foregroundColor(.black)
-                .font(.system(size: 23))
-            
+                       Text("Execute your habits: ")
+                           .font(.largeTitle
+                           .weight(.bold))
+                           .foregroundColor(.white)
+                           .padding()
+                       
+                       RoundedRectangle(cornerRadius: 20)
+                           .foregroundColor( .white)
+                           .frame(width: 330, height:120 )
+                           .overlay(
+                            Text("Current habit: \(userHabitData.model.habitModel.habitName )")
+                                .foregroundColor(.black)
+                                .font(.system(size: 23))
+                           )
              
             if ($userHabitData.model.routineCompleted.wrappedValue) {
                 RoutineCompletedView(userHabitData: userHabitData)
@@ -43,7 +47,7 @@ import SwiftUI
             }
                 else{
                     VStack {
-                        Text("User perscribed duration - " + String(userHabitData.model.habitModel.duration) + " minutes" ) // Displays name of current object
+                        Text("User set duration = " + String(userHabitData.model.habitModel.duration) + " minutes" ) // Displays name of current object
                             .padding()
                         
                         
@@ -58,12 +62,24 @@ import SwiftUI
                         CircularTimerView(timeLimit: ( userHabitData.model.habitModel.duration)*60,  resetTimer: $resetTimer )
                         
                         Spacer()
-                        
+                        RoundedRectangle(cornerRadius:30)
+                            .frame(width:220, height:40)
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .overlay(
                         Button("Refresh and restart") {
                             userHabitData.restart()
                             resetTimer.toggle()
                         }
-                            
+                        .frame(width:200)
+                        .font(.headline)
+                        )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(Color.black, lineWidth: 2)
+                                    .frame(width: 220, height:40)
+                            )
+                        
                         Spacer()
                         
                     }
@@ -78,10 +94,3 @@ import SwiftUI
     }
 
 
-struct HabitExecutionView_Previews: PreviewProvider {
-    static var previews: some View {
-        HabitExecutionView(userHabitData: UserHabitData())
-    }
-}
-
-    

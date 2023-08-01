@@ -26,9 +26,25 @@ struct RoutineCompletedView: View {
         
         Spacer()
         
+        
+        RoundedRectangle(cornerRadius:30)
+            .frame(width:220, height:40)
+            .foregroundColor(.white)
+            .padding(10)
+            .overlay(
         Button("Restart") {
             userHabitData.restart()
+            
         }
+        .frame(width:200)
+        .font(.headline)
+        )
+            .overlay(
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(Color.black, lineWidth: 2)
+                    .frame(width: 220, height:40)
+            )
+        
         
         Spacer()
             

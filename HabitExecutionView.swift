@@ -80,8 +80,8 @@ import SwiftUI
                                     .frame(width: 220, height:40)
                             )
                         
-                        Spacer()
-                        
+                        Spacer(minLength: 20)
+                       
                     }
                 }
             }

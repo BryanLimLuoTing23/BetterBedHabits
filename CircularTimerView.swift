@@ -9,17 +9,19 @@ struct CircularTimerView: View {
         self._resetTimer = resetTimer
     }
     
-    @State var color: Color = .black
+    @State var color: Color = .cyan
     @State var timeElapsed: TimeInterval = 0
     var timeLimit: TimeInterval
     @State var timer: Timer?
+    @State var firstTimeCompleted = false
     
     var body: some View {
         VStack {
             CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(timeLimit), color: (completed() ? Color.orange : Color.green))
                 .frame(width: 200, height: 200)
             
-            Clock(timeElapsed: timeElapsed, timeLimit: timeLimit)
+            TimeLeft(timeElapsed: timeElapsed, timeLimit: timeLimit, firstTimeCompleted: $firstTimeCompleted)
+
         }
         .onAppear {
             self.startTimer() // Start the timer when the view appears
@@ -47,10 +49,17 @@ struct CircularTimerView: View {
             if self.timeElapsed < self.timeLimit {
                 self.timeElapsed += 1
             } else {
-                // Timer completed, reset timeElapsed to 0
+                // Timer completed, reset timeElapsed to 0 for next set
                 self.timeElapsed = 0
-                // Restart the timer
-                self.startTimer()
+                
+                if self.firstTimeCompleted == false {
+                    self.firstTimeCompleted = true
+                    
+                } else {
+                    // Restart the timer
+                    self.startTimer()
+                }
+                
             }
         }
     }
@@ -79,21 +88,29 @@ struct CircularProgressBar: View {
                 .frame(width: 130, height: 130)
                 .overlay(
                     Circle()
+                        .stroke(.gray, lineWidth:25)
+                        .opacity(0.5)
+                )
+                .overlay(
+                    Circle()
                     .trim(from: 0.0, to: progress)
                     .stroke(color, style: StrokeStyle(lineWidth: 25, lineCap: .round))
                     .rotationEffect(Angle(degrees: -90))
                 )
+                
         }
     }
 }
 
-struct Clock: View {
+struct TimeLeft: View {
     var timeElapsed: TimeInterval
     var timeLimit: TimeInterval
+    @Binding var firstTimeCompleted : Bool
     
     var body: some View {
         VStack {
-            Text(timeLeftToMinutes())
+            
+            Text(firstTimeCompleted ? "0:00" :  timeLeftToMinutes())
                 .font(.system(size: 60))
                 .fontWeight(.black)
         }

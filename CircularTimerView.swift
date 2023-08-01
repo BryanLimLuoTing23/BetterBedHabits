@@ -1,36 +1,57 @@
-//
-//  CircularTimerView.swift
-//  Bedtime Bliss
-//
-//  Created by Bryan Lim Luo Ting on 01/08/2023.
-//
-
 import SwiftUI
 
-
 struct CircularTimerView: View {
+    
+    @Binding var resetTimer: Bool
+    
+    init(timeLimit: TimeInterval, resetTimer: Binding<Bool>) {
+        self.timeLimit = timeLimit
+        self._resetTimer = resetTimer
+    }
+    
     @State var color: Color = .black
+    @State var timeElapsed: TimeInterval = 0
+    var timeLimit: TimeInterval
+    @State var timer: Timer?
     
-    @State var timeElapsed: Int = 0
-    var countTo: Int = 68
-    
-    var timer: Timer {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if self.timeElapsed < self.countTo {
-                self.timeElapsed += 1
+    var body: some View {
+        VStack {
+            CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(timeLimit), color: (completed() ? Color.orange : Color.purple))
+                .frame(width: 200, height: 200)
+            
+            Clock(timeElapsed: timeElapsed, timeLimit: timeLimit)
+        }
+        .onAppear {
+            self.startTimer() // Start the timer when the view appears
+        }
+        .onChange(of: resetTimer) { newValue in
+            if newValue {
+                self.resetTimer = false
+                self.timeElapsed = 0
+                self.startTimer() // Restart the timer after resetting the timeElapsed
             }
         }
     }
     
-    var body: some View {
-        VStack {
-            CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(countTo), color: (completed() ? Color.orange : Color.green))
-                .frame(width: 200, height: 200)
-            
-            Clock(timeElapsed: timeElapsed, countTo: countTo)
+    func startTimer() {
+        // Invalidate the existing timer, if any
+        timer?.invalidate()
+        
+        // If resetTimer is true, reset the timeElapsed to 0
+        if resetTimer {
+            timeElapsed = 0
         }
-        .onAppear {
-            _ = self.timer // Start the timer when the view appears
+        
+        // Start a new timer
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if self.timeElapsed < self.timeLimit {
+                self.timeElapsed += 1
+            } else {
+                // Timer completed, reset timeElapsed to 0
+                self.timeElapsed = 0
+                // Restart the timer
+                self.startTimer()
+            }
         }
     }
     
@@ -39,7 +60,11 @@ struct CircularTimerView: View {
     }
     
     func progress() -> CGFloat {
-        return (CGFloat(timeElapsed) / CGFloat(countTo))
+        if timeElapsed >= timeLimit {
+            return 1.0
+        } else {
+            return (CGFloat(timeElapsed) / CGFloat(timeLimit))
+        }
     }
 }
 
@@ -51,22 +76,20 @@ struct CircularProgressBar: View {
         ZStack {
             Circle()
                 .fill(Color.clear)
-                .frame(width: 100, height: 100)
+                .frame(width: 130, height: 130)
                 .overlay(
                     Circle()
                     .trim(from: 0.0, to: progress)
                     .stroke(color, style: StrokeStyle(lineWidth: 25, lineCap: .round))
                     .rotationEffect(Angle(degrees: -90))
                 )
-            
-           
         }
     }
 }
 
 struct Clock: View {
-    var timeElapsed: Int
-    var countTo: Int
+    var timeElapsed: TimeInterval
+    var timeLimit: TimeInterval
     
     var body: some View {
         VStack {
@@ -77,16 +100,19 @@ struct Clock: View {
     }
     
     func timeLeftToMinutes() -> String {
-        let currentTime = countTo - timeElapsed
-        let seconds = currentTime % 60
+        let currentTime = timeLimit - timeElapsed
+        let seconds = Int(currentTime.modulo( 60))
         let minutes = Int(currentTime / 60)
         
-        return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
-    }
+        if seconds == 30 {
+                    return "\(minutes):30"
+                } else {
+                    return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
+                }    }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CircularTimerView()
+extension TimeInterval {
+    func modulo(_ other: TimeInterval) -> TimeInterval {
+        return self - other * floor(self / other)
     }
 }

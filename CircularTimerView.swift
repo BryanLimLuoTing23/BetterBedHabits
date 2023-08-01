@@ -16,7 +16,7 @@ struct CircularTimerView: View {
     
     var body: some View {
         VStack {
-            CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(timeLimit), color: (completed() ? Color.orange : Color.purple))
+            CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(timeLimit), color: (completed() ? Color.orange : Color.green))
                 .frame(width: 200, height: 200)
             
             Clock(timeElapsed: timeElapsed, timeLimit: timeLimit)
@@ -109,6 +109,7 @@ struct Clock: View {
                 } else {
                     return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
                 }    }
+    
 }
 
 extension TimeInterval {

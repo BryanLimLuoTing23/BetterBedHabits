@@ -1,3 +1,4 @@
+
 //
 //  HabitExecutionView.swift
 //  Bedtime Bliss
@@ -13,9 +14,12 @@ import SwiftUI
 
 
  struct HabitExecutionView: View {
-    @ObservedObject var userHabitData : UserHabitData
+     @ObservedObject var userHabitData : UserHabitData
      @State private var isShowingHabitListView = false
-  
+     @State var color: Color = .blue
+     @State private var resetTimer = false
+         
+     //Computed property : updates everytime it is accessed
     
     
     
@@ -44,13 +48,19 @@ import SwiftUI
                         
                         Spacer()
                         
-                        HabitOptionsView(userHabitData: userHabitData)
+                        HabitOptionsView(userHabitData: userHabitData, resetTimer: $resetTimer)
+
                         //Pass in Habit object to HabitOptionsView
                         
-                         Spacer()
+                        Spacer()
+                        
+                        CircularTimerView(timeLimit: ( userHabitData.model.habitModel.duration)*60,  resetTimer: $resetTimer )
+                        
+                        Spacer()
                         
                         Button("Refresh and restart") {
                             userHabitData.restart()
+                            resetTimer.toggle()
                         }
                             
                         Spacer()

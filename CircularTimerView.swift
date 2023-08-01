@@ -9,7 +9,6 @@ struct CircularTimerView: View {
         self._resetTimer = resetTimer
     }
     
-    @State var color: Color = .cyan
     @State var timeElapsed: TimeInterval = 0
     var timeLimit: TimeInterval
     @State var timer: Timer?
@@ -19,7 +18,12 @@ struct CircularTimerView: View {
         VStack {
             CircularProgressBar(progress: CGFloat(timeElapsed) / CGFloat(timeLimit), color: (completed() ? Color.orange : Color.green))
                 .frame(width: 200, height: 200)
-            
+            Spacer()
+            if completed()  {
+                Text("You should be finished")
+                
+            }
+            Spacer()
             TimeLeft(timeElapsed: timeElapsed, timeLimit: timeLimit, firstTimeCompleted: $firstTimeCompleted)
 
         }
@@ -45,21 +49,14 @@ struct CircularTimerView: View {
         }
         
         // Start a new timer
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if self.timeElapsed < self.timeLimit {
-                self.timeElapsed += 1
-            } else {
-                // Timer completed, reset timeElapsed to 0 for next set
-                self.timeElapsed = 0
-                
-                if self.firstTimeCompleted == false {
-                    self.firstTimeCompleted = true
-                    
+        if !firstTimeCompleted {
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                if self.timeElapsed < self.timeLimit {
+                    self.timeElapsed += 1
                 } else {
-                    // Restart the timer
-                    self.startTimer()
+                    // Timer completed for the first time
+                    self.firstTimeCompleted = true
                 }
-                
             }
         }
     }
@@ -118,7 +115,7 @@ struct TimeLeft: View {
     
     func timeLeftToMinutes() -> String {
         let currentTime = timeLimit - timeElapsed
-        let seconds = Int(currentTime.modulo( 60))
+        let seconds = Int(currentTime.modulo( 60)) // Sooo there was no modulo function for doubles
         let minutes = Int(currentTime / 60)
         
         if seconds == 30 {

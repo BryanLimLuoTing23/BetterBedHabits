@@ -25,7 +25,7 @@ struct MyApp: App {
                     .tabItem {
                         Label("Execution", systemImage: "play.circle")
                     }
-                    .background(Color.green)
+                    .background(Color.purple)
                 
                 
             }

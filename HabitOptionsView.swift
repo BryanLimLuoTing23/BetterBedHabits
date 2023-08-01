@@ -12,7 +12,7 @@ import SwiftUI
 struct HabitOptionsView: View {
     @ObservedObject var userHabitData: UserHabitData
     @Binding var resetTimer: Bool
-    var columns: [GridItem] = Array(repeating: GridItem(.fixed(90), spacing: 20), count: 2)
+    var columns: [GridItem] = Array(repeating: GridItem(.fixed(90), spacing: 100), count: 2)
     var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 30 ) {
             ForEach ( userHabitData.model.habitModel.optionsList) {  //For each option
@@ -37,7 +37,7 @@ struct OptionBoxView : View {
     var body: some View {
         VStack{
             if (habitOption.isMatched) && (habitOption.isSelected) {
-                OptionSelectedImageDisplayer(imageName: "Filled checkbox" )
+                OptionSelectedImageDisplayer(imageName: "Tick" )
             }
             else if ( habitOption.isMatched == false) &&  (habitOption.isSelected == true ){
                 OptionSelectedImageDisplayer(imageName: "Crossed" )
@@ -45,7 +45,7 @@ struct OptionBoxView : View {
             else {
                 DefaultCheckBoxView(habitOption: habitOption)
             }
-        }.frame(width: 70, height: 80)
+        }.frame(width: 100, height: 80)
             .foregroundColor(.white)
                         .padding()
                         .background(Color.blue.opacity(0.7))
@@ -64,6 +64,7 @@ struct DefaultCheckBoxView: View {
                 .font(.system(size: 19))
                 .foregroundColor(.white)
                 .opacity(1)
+                .multilineTextAlignment(.center)
             
         }
     }
@@ -76,8 +77,7 @@ struct OptionSelectedImageDisplayer: View {
         Image(imageName)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .padding(EdgeInsets( top: 30, leading: 30, bottom: 30, trailing: 30))
-         //   .foregroundColor(.blue)
+         
         
     }
     

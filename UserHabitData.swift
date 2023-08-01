@@ -21,20 +21,20 @@ class UserHabitData : ObservableObject{
                     duration: 6,
                     
                     optionsList:[ HabitOption(id: 10, option: "Mark as finished" ),
-                                  HabitOption(id: 11, option: "Unable to complete")]
+                                  HabitOption(id: 11, option: "There's no giving up")]
                    ),
          HabitModel(habitName: "Fill habit here 2",
                     
                     duration: 10,
                     optionsList: [HabitOption(id: 20, option: "Mark as finished"),
-                                  HabitOption(id: 21, option: "Unable to complete")])
+                                  HabitOption(id: 21, option: "There's no giving up")])
          
          ,
          HabitModel(habitName: "Fill habit here 3",
                     
                     duration: 5,
                     optionsList: [HabitOption(id: 30, option: "Mark as finished"),
-                                  HabitOption(id: 31, option: "Unable to complete")])
+                                  HabitOption(id: 31, option: "There's no giving up")])
          
         ]
     
@@ -74,6 +74,9 @@ class UserHabitData : ObservableObject{
                     if (UserHabitData.currentIndex < self.HabitData.count - 1) { //I.e. not finished
                         UserHabitData.currentIndex = UserHabitData.currentIndex+1
                         self.model = self.createHabitModel(i: UserHabitData.currentIndex)
+                        
+                            
+                        
                     } else {
                         self.model.routineCompleted = true
                     }
@@ -92,5 +95,3 @@ class UserHabitData : ObservableObject{
         model = createHabitModel(i: UserHabitData.currentIndex)
     }
 }
-
-

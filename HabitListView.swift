@@ -9,7 +9,7 @@
 //TODO Remove Edit Button, and then just have the save data button.
 // The save button will be grayed out when no changes are made, but will be made blue when changes are made and you need to save.
 
-//Or just auto save and auto edit? 
+//Or just auto save and auto edit?
 import Foundation
 import SwiftUI
 
@@ -120,7 +120,7 @@ public struct HabitListView: View {
                                             duration: editedDurationArray[index],
                 
                                             optionsList: [HabitOption(id: Int( String("\(index+1)0")   )!, option: "Mark as finished"),
-                                                          HabitOption(id: Int(String("\(index+1)1"))!, option: "Unable to complete")
+                                                          HabitOption(id: Int(String("\(index+1)1"))!, option: "There's no giving up")
                                                                                                            ])
             )
             
@@ -143,4 +143,3 @@ struct HabitListItemView: View{
     }
     
 }
-

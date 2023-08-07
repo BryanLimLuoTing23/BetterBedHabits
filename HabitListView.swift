@@ -61,7 +61,7 @@ public struct HabitListView: View {
                             .foregroundColor(.blue)
                         
                         Slider(value: $editedDurationArray[index],
-                               in: 0.2...60,
+                               in: 0.2...30,
                                step: 0.2)
                         .onChange(of: editedDurationArray[index]) { newValue in
                             editedDurationArray[index] = newValue
@@ -94,11 +94,14 @@ public struct HabitListView: View {
                 
                 Spacer()
                 
+                
                 Button("+") {
                     editedHabitNames.append("New Habit")
                     editedDurationArray.append(10)
                     dataHasChanges = true
                 }
+                
+                
                 
             }
             .padding()

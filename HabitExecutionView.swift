@@ -47,7 +47,7 @@ import SwiftUI
             }
                 else{
                     VStack {
-                        Text("User set duration = " + String(userHabitData.model.habitModel.duration) + " minutes" ) // Displays name of current object
+                        Text("User set duration = " + String(format: "%.1f", userHabitData.model.habitModel.duration) + " minutes" ) // Displays name of current object
                             .padding()
                         
                         

@@ -15,10 +15,11 @@ import SwiftUI
 
 public struct HabitListView: View {
     @ObservedObject var userHabitData: UserHabitData
-    @State private var isShowingEditView = false
+    @State private var isShowingEditView = true
     @State private var editedHabitNames: [String] = []
     @State private var editedDurationArray: [TimeInterval]
     = []
+    @State private var dataHasChanges = false
 
     func moveHabitItem(from source: IndexSet, to destination: Int) {
         editedHabitNames.move(fromOffsets: source, toOffset: destination)
@@ -41,6 +42,10 @@ public struct HabitListView: View {
                     ForEach(editedHabitNames.indices, id: \.self) { index in
                         if isShowingEditView {
                             TextField("Enter new habit", text: $editedHabitNames[index])
+                                .onChange(of: editedHabitNames[index]) { newValue in
+                                    editedHabitNames[index] = newValue
+                                    dataHasChanges = true
+                                }
                         } else {
                             Text(editedHabitNames[index])
                         }
@@ -58,6 +63,10 @@ public struct HabitListView: View {
                         Slider(value: $editedDurationArray[index],
                                in: 0.2...60,
                                step: 0.2)
+                        .onChange(of: editedDurationArray[index]) { newValue in
+                            editedDurationArray[index] = newValue
+                            dataHasChanges = true
+                        }
                         
                         
                     }
@@ -73,29 +82,22 @@ public struct HabitListView: View {
 
             Spacer()
             HStack{
-                if !isShowingEditView {
-                    Button("Edit Habit Names") {
-                        isShowingEditView = true
-                    }
-                } else {
-                    Button("Done") {
-                        isShowingEditView = false
-                        updateHabitData()
-                    }
-                }
+                
                 
                 Spacer()
                 
                 Button("Save data") {
                     updateHabitData()
                 }
+                .foregroundColor(dataHasChanges ? .blue : .gray)
+                .disabled(!dataHasChanges)
                 
                 Spacer()
                 
                 Button("+") {
                     editedHabitNames.append("New Habit")
                     editedDurationArray.append(10)
-                    
+                    dataHasChanges = true
                 }
                 
             }
@@ -129,7 +131,7 @@ public struct HabitListView: View {
          
         }
 
-        isShowingEditView = false
+        dataHasChanges = false
     }
 }
 

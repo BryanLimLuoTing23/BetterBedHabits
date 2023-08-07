@@ -32,7 +32,7 @@ struct RoutineCompletedView: View {
             .foregroundColor(.white)
             .padding(10)
             .overlay(
-        Button("Restart") {
+        Button("Restart?") {
             userHabitData.restart()
             
         }

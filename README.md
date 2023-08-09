@@ -1,13 +1,13 @@
 # BetterBedHabits Support
+
+###Hello! Thanks for checking out my app!
+###I'm hoping I can uphold your trust in my app, and I'd like to let you know that I do not store your data. 
+
+###Thank you and enjoy forming good habits!
+
 ---
-Hello! Thanks for checking out my app!
-I'm hoping I can uphold your trust in my app, and I'd like to let you know that I do not store your data. 
 
-Thank you and enjoy forming good habits!
-
----
-
-## Frequently Asked Questions
+## Frequently Asked Questions ( FAQs )
 
 **Q: How do I add a new habit?**  
 A: Navigate to the 'Habits' tab and click the '+' icon on the top right corner.

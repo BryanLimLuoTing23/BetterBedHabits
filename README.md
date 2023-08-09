@@ -1,7 +1,7 @@
 # BetterBedHabits Support
 
 ###Hello! Thanks for checking out my app!
-###I'm hoping I can uphold your trust in my app, and I'd like to let you know that I do not store your data. 
+I'm committed to upholding your trust in my app, and I'd like to let you know that I DO NOT store your data. 
 
 ###Thank you and enjoy forming good habits!
 
